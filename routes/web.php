@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Pemohon\CompanyController;
 use App\Http\Controllers\Pemohon\DashboardController as PemohonDashboardController;
+use App\Http\Controllers\Pemohon\PermohonanAndalalinController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
@@ -37,6 +38,15 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/edit',               [CompanyController::class, 'edit'])->name('edit');
                 Route::post('/update',            [CompanyController::class, 'update'])->name('update');
                 Route::post('/submit-verifikasi', [CompanyController::class, 'submitVerifikasi'])->name('submit-verifikasi');
+            });
+
+            Route::prefix('permohonan-andalalin')->name('permohonan-andalalin.')->group(function () {
+                Route::get('/',                  [PermohonanAndalalinController::class, 'index'])->name('index');
+                Route::get('/create',            [PermohonanAndalalinController::class, 'create'])->name('create');
+                Route::get('/get-parameters',    [PermohonanAndalalinController::class, 'getParameters'])->name('get-parameters');
+                Route::get('/get-rentang-nilai', [PermohonanAndalalinController::class, 'getRentangNilai'])->name('get-rentang-nilai');
+                Route::post('/store',            [PermohonanAndalalinController::class, 'store'])->name('store');
+                Route::get('/{id}/show',         [PermohonanAndalalinController::class, 'show'])->name('show');
             });
         });
 

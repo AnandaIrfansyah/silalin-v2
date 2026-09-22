@@ -30,6 +30,14 @@
                         <span>Profil Perusahaan</span>
                     </a>
                 </li>
+
+                <li class="menu-header">Permohonan</li>
+                <li class="nav-item {{ request()->routeIs('pemohon.permohonan-andalalin.*') ? 'active' : '' }}">
+                    <a href="{{ route('pemohon.permohonan-andalalin.index') }}" class="nav-link">
+                        <i class="fas fa-file-circle-plus"></i>
+                        <span>Permohonan Andalalin</span>
+                    </a>
+                </li>
             @endrole
 
             {{-- ════════════════════════════════════════════
