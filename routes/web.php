@@ -101,7 +101,6 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/{id}/verifikasi-berkas',   [AdminPermohonanParkirController::class, 'verifikasiBerkas'])->name('verifikasi-berkas');
                 Route::post('/{id}/jadwal-survey',       [AdminPermohonanParkirController::class, 'jadwalSurvey'])->name('jadwal-survey');
                 Route::post('/{id}/upload-berita-acara', [AdminPermohonanParkirController::class, 'uploadBeritaAcara'])->name('upload-berita-acara');
-                Route::post('/{id}/jadwal-paparan',      [AdminPermohonanParkirController::class, 'jadwalPaparan'])->name('jadwal-paparan');
                 Route::post('/{id}/upload-laporan',      [AdminPermohonanParkirController::class, 'uploadLaporanAnalisis'])->name('upload-laporan');
                 Route::post('/{id}/verifikasi-ttd',      [AdminPermohonanParkirController::class, 'verifikasiTtd'])->name('verifikasi-ttd');
             });

@@ -191,7 +191,7 @@
                                             <i class="fas fa-upload mr-1"></i> Upload Ulang & Ajukan Kembali
                                         </button>
                                     </form>
-                                @elseif (in_array($permohonan->status, ['diajukan', 'dijadwalkan_survey', 'dijadwalkan_paparan']))
+                                @elseif (in_array($permohonan->status, ['diajukan', 'dijadwalkan_survey', 'survey_selesai']))
                                     <div class="alert alert-info mb-0">
                                         <i class="fas fa-hourglass-half mr-1"></i>
                                         Permohonan sedang diproses oleh Admin. Silakan cek riwayat di samping untuk
@@ -201,12 +201,6 @@
                                             <i class="fas fa-calendar mr-1"></i>
                                             Survey lapangan: <strong>{{ $permohonan->tanggal_survey->format('d M Y') }}
                                                 pukul {{ substr($permohonan->jam_survey, 0, 5) }}</strong>
-                                        @endif
-                                        @if ($permohonan->status === 'dijadwalkan_paparan' && $permohonan->tanggal_paparan)
-                                            <hr>
-                                            <i class="fas fa-calendar mr-1"></i>
-                                            Paparan: <strong>{{ $permohonan->tanggal_paparan->format('d M Y') }} pukul
-                                                {{ substr($permohonan->jam_paparan, 0, 5) }}</strong>
                                         @endif
                                     </div>
                                 @elseif (in_array($permohonan->status, ['menunggu_ttd', 'revisi_ttd']))

@@ -129,7 +129,7 @@ class PermohonanParkirController extends Controller
                 ? 'Berita acara survey diupload. Koreksi fasilitas: ' . implode(', ', $koreksi)
                 : 'Berita acara survey diupload. Hasil survey fasilitas sesuai input pemohon';
 
-            $this->ubahStatus($permohonan, 'upload_berita_acara', 'dijadwalkan_paparan', [
+            $this->ubahStatus($permohonan, 'upload_berita_acara', 'survey_selesai', [
                 'file_berita_acara_survey' => $request->file('file_berita_acara_survey')
                     ->store('permohonan-parkir/berita-acara', 'public'),
             ], $keterangan);
@@ -138,38 +138,13 @@ class PermohonanParkirController extends Controller
         return back()->with('toast_success', 'Berita acara dan hasil survey fasilitas berhasil disimpan.');
     }
 
-    public function jadwalPaparan(Request $request, $id)
-    {
-        $permohonan = PermohonanParkir::findOrFail($id);
-
-        if ($permohonan->status !== 'dijadwalkan_paparan') {
-            return back()->with('toast_error', 'Permohonan ini tidak dalam tahap penjadwalan paparan.');
-        }
-
-        $validated = $request->validate([
-            'tanggal_paparan' => ['required', 'date'],
-            'jam_paparan'     => ['required', 'date_format:H:i'],
-        ]);
-
-        $permohonan->update($validated);
-
-        $this->catatLog(
-            $permohonan,
-            'jadwal_paparan',
-            $permohonan->status,
-            $permohonan->status,
-            "Paparan dijadwalkan: {$validated['tanggal_paparan']} pukul {$validated['jam_paparan']}"
-        );
-
-        return back()->with('toast_success', 'Jadwal paparan berhasil disimpan.');
-    }
 
     public function uploadLaporanAnalisis(Request $request, $id)
     {
         $permohonan = PermohonanParkir::findOrFail($id);
 
-        if ($permohonan->status !== 'dijadwalkan_paparan' || ! $permohonan->tanggal_paparan) {
-            return back()->with('toast_error', 'Jadwalkan paparan terlebih dahulu sebelum mengupload laporan analisis.');
+        if ($permohonan->status !== 'survey_selesai') {
+            return back()->with('toast_error', 'Laporan analisis hanya bisa diupload setelah survey selesai.');
         }
 
         $validated = $request->validate([

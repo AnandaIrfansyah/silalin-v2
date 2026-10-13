@@ -27,7 +27,7 @@
                                 <div class="col-md-4">
                                     <select name="status" class="form-control">
                                         <option value="">Semua Status</option>
-                                        @foreach (['diajukan', 'revisi_berkas', 'dijadwalkan_survey', 'dijadwalkan_paparan', 'menunggu_ttd', 'revisi_ttd', 'selesai'] as $s)
+                                        @foreach (['diajukan', 'revisi_berkas', 'dijadwalkan_survey', 'survey_selesai', 'menunggu_ttd', 'revisi_ttd', 'selesai'] as $s)
                                             <option value="{{ $s }}" @selected($status === $s)>
                                                 {{ ucfirst(str_replace('_', ' ', $s)) }}
                                             </option>

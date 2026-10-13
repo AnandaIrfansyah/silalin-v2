@@ -309,72 +309,39 @@
                                     @endif
 
                                     {{-- Paparan: jadwal, laporan analisis, data naskah --}}
-                                @elseif ($permohonan->status === 'dijadwalkan_paparan')
-                                    <h6>Jadwal Paparan</h6>
-                                    <form action="{{ route('admin.permohonan-parkir.jadwal-paparan', $permohonan->id) }}"
-                                        method="POST">
+                                    {{-- Laporan analisis & data naskah --}}
+                                @elseif ($permohonan->status === 'survey_selesai')
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        Survey selesai. Upload laporan analisis dan lengkapi data naskah untuk menyiapkan
+                                        Surat Pernyataan Kesanggupan.
+                                    </div>
+                                    <form action="{{ route('admin.permohonan-parkir.upload-laporan', $permohonan->id) }}"
+                                        method="POST" enctype="multipart/form-data">
                                         @csrf
-                                        <div class="row">
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <label>Tanggal</label>
-                                                    <input type="date" name="tanggal_paparan" class="form-control"
-                                                        value="{{ old('tanggal_paparan', $permohonan->tanggal_paparan?->format('Y-m-d')) }}"
-                                                        required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>Jam</label>
-                                                    <input type="time" name="jam_paparan" class="form-control"
-                                                        value="{{ old('jam_paparan', $permohonan->jam_paparan ? substr($permohonan->jam_paparan, 0, 5) : '') }}"
-                                                        required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3 d-flex align-items-end">
-                                                <div class="form-group w-100">
-                                                    <button type="submit" class="btn btn-primary btn-block">
-                                                        <i class="fas fa-calendar-check mr-1"></i>
-                                                        {{ $permohonan->tanggal_paparan ? 'Ubah' : 'Simpan' }}
-                                                    </button>
-                                                </div>
-                                            </div>
+                                        <div class="form-group">
+                                            <label>File Laporan Analisis <span class="text-danger">*</span></label>
+                                            <input type="file" name="file_laporan_analisis" class="form-control"
+                                                accept=".pdf" required>
                                         </div>
-                                    </form>
-
-                                    @if ($permohonan->tanggal_paparan)
-                                        <hr>
-                                        <h6>Laporan Analisis & Data Naskah</h6>
-                                        <form
-                                            action="{{ route('admin.permohonan-parkir.upload-laporan', $permohonan->id) }}"
-                                            method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label>File Laporan Analisis <span class="text-danger">*</span></label>
-                                                <input type="file" name="file_laporan_analisis" class="form-control"
-                                                    accept=".pdf" required>
-                                            </div>
-                                            <p class="text-muted small">Data naskah ini dipakai untuk mengisi Surat
-                                                Pernyataan Kesanggupan.</p>
-                                            <div class="row">
-                                                @foreach ($fieldNaskah as [$name, $label, $type, $col])
-                                                    <div class="col-md-{{ $col }}">
-                                                        <div class="form-group">
-                                                            <label>{{ $label }} <span
-                                                                    class="text-danger">*</span></label>
-                                                            <input type="{{ $type }}" name="{{ $name }}"
-                                                                class="form-control"
-                                                                value="{{ old($name, $type === 'date' ? $permohonan->tanggal_dokumen?->format('Y-m-d') : $permohonan->$name) }}"
-                                                                required>
-                                                        </div>
+                                        <div class="row">
+                                            @foreach ($fieldNaskah as [$name, $label, $type, $col])
+                                                <div class="col-md-{{ $col }}">
+                                                    <div class="form-group">
+                                                        <label>{{ $label }} <span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="{{ $type }}" name="{{ $name }}"
+                                                            class="form-control"
+                                                            value="{{ old($name, $type === 'date' ? $permohonan->tanggal_dokumen?->format('Y-m-d') : $permohonan->$name) }}"
+                                                            required>
                                                     </div>
-                                                @endforeach
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">
-                                                <i class="fas fa-upload mr-1"></i> Upload & Siapkan Surat Pernyataan
-                                            </button>
-                                        </form>
-                                    @endif
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-upload mr-1"></i> Upload & Siapkan Surat Pernyataan
+                                        </button>
+                                    </form>
 
                                     {{-- Verifikasi TTD --}}
                                 @elseif ($permohonan->status === 'menunggu_ttd')
