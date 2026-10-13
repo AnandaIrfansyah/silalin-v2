@@ -16,6 +16,7 @@ class PermohonanAndalalin extends Model
         'kriteria_andalalin_id',
         'jenis_kegiatan_snapshot',
         'parameter_snapshot',
+        'nilai_parameter_snapshot',
         'kategori_bangkitan',
         'alamat_proyek',
         'status',

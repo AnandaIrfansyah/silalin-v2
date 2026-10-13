@@ -6,11 +6,14 @@ use App\Http\Controllers\Admin\KriteriaAndalalinController;
 use App\Http\Controllers\Admin\ManajemenUserController;
 use App\Http\Controllers\Admin\MasterDokumenController;
 use App\Http\Controllers\Admin\MasterFasilitasController;
+use App\Http\Controllers\Admin\PermohonanAndalalinController as AdminPermohonanAndalalinController;
+use App\Http\Controllers\Admin\PermohonanParkirController as AdminPermohonanParkirController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Pemohon\CompanyController;
 use App\Http\Controllers\Pemohon\DashboardController as PemohonDashboardController;
 use App\Http\Controllers\Pemohon\PermohonanAndalalinController;
+use App\Http\Controllers\Pemohon\PermohonanParkirController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
@@ -41,12 +44,26 @@ Route::middleware(['auth'])->group(function () {
             });
 
             Route::prefix('permohonan-andalalin')->name('permohonan-andalalin.')->group(function () {
-                Route::get('/',                  [PermohonanAndalalinController::class, 'index'])->name('index');
-                Route::get('/create',            [PermohonanAndalalinController::class, 'create'])->name('create');
-                Route::get('/get-parameters',    [PermohonanAndalalinController::class, 'getParameters'])->name('get-parameters');
-                Route::get('/get-rentang-nilai', [PermohonanAndalalinController::class, 'getRentangNilai'])->name('get-rentang-nilai');
-                Route::post('/store',            [PermohonanAndalalinController::class, 'store'])->name('store');
-                Route::get('/{id}/show',         [PermohonanAndalalinController::class, 'show'])->name('show');
+                Route::get('/',                      [PermohonanAndalalinController::class, 'index'])->name('index');
+                Route::get('/create',                [PermohonanAndalalinController::class, 'create'])->name('create');
+                Route::get('/get-parameters',        [PermohonanAndalalinController::class, 'getParameters'])->name('get-parameters');
+                Route::get('/get-rentang-nilai',     [PermohonanAndalalinController::class, 'getRentangNilai'])->name('get-rentang-nilai');
+                Route::post('/store',                [PermohonanAndalalinController::class, 'store'])->name('store');
+                Route::get('/{id}/show',             [PermohonanAndalalinController::class, 'show'])->name('show');
+                Route::post('/{id}/revisi-berkas',   [PermohonanAndalalinController::class, 'revisiBerkas'])->name('revisi-berkas');
+                Route::post('/{id}/upload-dokumen-andalalin', [PermohonanAndalalinController::class, 'uploadDokumenAndalalin'])->name('upload-dokumen-andalalin');
+                Route::get('/{id}/download-surat-pernyataan', [PermohonanAndalalinController::class, 'downloadSuratPernyataan'])->name('download-surat-pernyataan');
+                Route::post('/{id}/upload-ttd',      [PermohonanAndalalinController::class, 'uploadTtd'])->name('upload-ttd');
+            });
+
+            Route::prefix('permohonan-parkir')->name('permohonan-parkir.')->group(function () {
+                Route::get('/',                               [PermohonanParkirController::class, 'index'])->name('index');
+                Route::get('/create',                         [PermohonanParkirController::class, 'create'])->name('create');
+                Route::post('/store',                         [PermohonanParkirController::class, 'store'])->name('store');
+                Route::get('/{id}/show',                      [PermohonanParkirController::class, 'show'])->name('show');
+                Route::post('/{id}/revisi-berkas',            [PermohonanParkirController::class, 'revisiBerkas'])->name('revisi-berkas');
+                Route::get('/{id}/download-surat-pernyataan', [PermohonanParkirController::class, 'downloadSuratPernyataan'])->name('download-surat-pernyataan');
+                Route::post('/{id}/upload-ttd',               [PermohonanParkirController::class, 'uploadTtd'])->name('upload-ttd');
             });
         });
 
@@ -64,6 +81,29 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/{id}/show',     [CompanyVerifikasiController::class, 'show'])->name('show');
                 Route::post('/{id}/approve', [CompanyVerifikasiController::class, 'approve'])->name('approve');
                 Route::post('/{id}/reject',  [CompanyVerifikasiController::class, 'reject'])->name('reject');
+            });
+
+            Route::prefix('permohonan-andalalin')->name('permohonan-andalalin.')->group(function () {
+                Route::get('/',                          [AdminPermohonanAndalalinController::class, 'index'])->name('index');
+                Route::get('/{id}/show',                 [AdminPermohonanAndalalinController::class, 'show'])->name('show');
+                Route::post('/{id}/verifikasi-berkas',   [AdminPermohonanAndalalinController::class, 'verifikasiBerkas'])->name('verifikasi-berkas');
+                Route::post('/{id}/jadwal-survey',       [AdminPermohonanAndalalinController::class, 'jadwalSurvey'])->name('jadwal-survey');
+                Route::post('/{id}/upload-berita-acara', [AdminPermohonanAndalalinController::class, 'uploadBeritaAcara'])->name('upload-berita-acara');
+                Route::post('/{id}/verifikasi-dokumen-andalalin', [AdminPermohonanAndalalinController::class, 'verifikasiDokumenAndalalin'])->name('verifikasi-dokumen-andalalin');
+                Route::post('/{id}/jadwal-paparan',      [AdminPermohonanAndalalinController::class, 'jadwalPaparan'])->name('jadwal-paparan');
+                Route::post('/{id}/upload-laporan',      [AdminPermohonanAndalalinController::class, 'uploadLaporanAnalisis'])->name('upload-laporan');
+                Route::post('/{id}/verifikasi-ttd',      [AdminPermohonanAndalalinController::class, 'verifikasiTtd'])->name('verifikasi-ttd');
+            });
+
+            Route::prefix('permohonan-parkir')->name('permohonan-parkir.')->group(function () {
+                Route::get('/',                          [AdminPermohonanParkirController::class, 'index'])->name('index');
+                Route::get('/{id}/show',                 [AdminPermohonanParkirController::class, 'show'])->name('show');
+                Route::post('/{id}/verifikasi-berkas',   [AdminPermohonanParkirController::class, 'verifikasiBerkas'])->name('verifikasi-berkas');
+                Route::post('/{id}/jadwal-survey',       [AdminPermohonanParkirController::class, 'jadwalSurvey'])->name('jadwal-survey');
+                Route::post('/{id}/upload-berita-acara', [AdminPermohonanParkirController::class, 'uploadBeritaAcara'])->name('upload-berita-acara');
+                Route::post('/{id}/jadwal-paparan',      [AdminPermohonanParkirController::class, 'jadwalPaparan'])->name('jadwal-paparan');
+                Route::post('/{id}/upload-laporan',      [AdminPermohonanParkirController::class, 'uploadLaporanAnalisis'])->name('upload-laporan');
+                Route::post('/{id}/verifikasi-ttd',      [AdminPermohonanParkirController::class, 'verifikasiTtd'])->name('verifikasi-ttd');
             });
 
             Route::prefix('kriteria-andalalin')->name('kriteria-andalalin.')->group(function () {

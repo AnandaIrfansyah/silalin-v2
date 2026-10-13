@@ -38,6 +38,13 @@
                         <span>Permohonan Andalalin</span>
                     </a>
                 </li>
+
+                <li class="nav-item {{ request()->routeIs('pemohon.permohonan-parkir.*') ? 'active' : '' }}">
+                    <a href="{{ route('pemohon.permohonan-parkir.index') }}" class="nav-link">
+                        <i class="fas fa-square-parking"></i>
+                        <span>Permohonan Parkir</span>
+                    </a>
+                </li>
             @endrole
 
             {{-- ════════════════════════════════════════════
@@ -56,6 +63,19 @@
                     <a href="{{ route('admin.verifikasi-perusahaan.index') }}" class="nav-link">
                         <i class="fas fa-building"></i>
                         <span>Verifikasi Perusahaan</span>
+                    </a>
+                </li>
+                <li class="menu-header">Perizinan</li>
+                <li class="nav-item {{ request()->routeIs('admin.permohonan-andalalin.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.permohonan-andalalin.index') }}" class="nav-link">
+                        <i class="fas fa-file-signature"></i>
+                        <span>Permohonan Andalalin</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('admin.permohonan-parkir.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.permohonan-parkir.index') }}" class="nav-link">
+                        <i class="fas fa-square-parking"></i>
+                        <span>Permohonan Parkir</span>
                     </a>
                 </li>
                 <li class="menu-header">Master Data</li>
